@@ -1,0 +1,153 @@
+#  SPDX-License-Identifier: BSD-3-Clause
+#
+#  jpeg Makefile.uk
+#
+#  Authors: Esteban Martinez <esteban.martinez@csuc.cat>
+#
+#  Copyright (c) 2019, Consorci de Serveis Universitaris de Catalunya (CSUC). All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+#  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+#  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+#  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+#  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+#  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#  POSSIBILITY OF SUCH DAMAGE.
+#
+#  THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
+#
+
+################################################################################
+# Library registration
+################################################################################
+$(eval $(call addlib_s,libjpeg,$(CONFIG_LIBJPEG)))
+
+################################################################################
+# Original sources
+################################################################################
+LIBJPEG_VERSION=8
+LIBJPEG_URL=https://www.ijg.org/files/jpegsrc.v$(LIBJPEG_VERSION).tar.gz
+LIBJPEG_PATCHDIR=$(LIBJPEG_BASE)/patches
+LIBJPEG_SUBDIR=jpeg-$(LIBJPEG_VERSION)
+$(eval $(call fetch,libjpeg,$(LIBJPEG_URL)))
+$(eval $(call patch,libjpeg,$(LIBJPEG_PATCHDIR),$(LIBJPEG_SUBDIR)))
+
+################################################################################
+# Helpers
+################################################################################
+LIBJPEG_EXTRACTED = $(LIBJPEG_ORIGIN)/jpeg-$(LIBJPEG_VERSION)
+
+################################################################################
+# Library includes
+################################################################################
+LIBJPEG_COMMON_INCLUDES-y      += -I$(LIBJPEG_EXTRACTED)/
+
+CINCLUDES-$(CONFIG_LIBJPEG)    += $(LIBJPEG_COMMON_INCLUDES-y)
+
+LIBJPEG_CINCLUDES   += -I$(LIBJPEG_EXTRACTED)
+
+################################################################################
+# Global flags
+################################################################################
+# Suppressed flags
+LIBJPEG_SUPPRESS_FLAGS += -Wno-unused-parameter \
+	-Wno-unused-variable -Wno-unused-value -Wno-unused-function \
+	-Wno-missing-field-initializers -Wno-implicit-fallthrough
+LIBJPEG_CFLAGS-y   += $(LIBJPEG_SUPPRESS_FLAGS) \
+	-Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
+
+################################################################################
+# JPEG src
+################################################################################
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jaricom.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcapimin.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcapistd.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcarith.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jccoefct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jccolor.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcdctmgr.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jchuff.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcinit.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcmainct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcmarker.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcmaster.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcomapi.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcparam.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcprepct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jcsample.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jctrans.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdapimin.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdapistd.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdarith.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdatadst.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdatasrc.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdcoefct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdcolor.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jddctmgr.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdhuff.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdinput.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdmainct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdmarker.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdmaster.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdmerge.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdpostct.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdsample.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jdtrans.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jerror.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jfdctflt.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jfdctfst.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jfdctint.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jidctflt.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jidctfst.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jidctint.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jquant1.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jquant2.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jutils.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jmemmgr.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/jmemnobs.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdppm.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdgif.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdtarga.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdrle.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdbmp.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdswitch.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/cdjpeg.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/wrppm.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/wrgif.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/wrtarga.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/wrrle.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/wrbmp.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/rdcolmap.c
+LIBJPEG_SRCS-y += $(LIBJPEG_EXTRACTED)/transupp.c
+
+################################################################################
+# JPEG prepare
+################################################################################
+# Run ./configure
+$(LIBJPEG_EXTRACTED)/config.status: $(LIBJPEG_BUILD)/.origin
+	$(call verbose_cmd,CONFIG,libjpeg: $(notdir $@), \
+		cd $(LIBJPEG_EXTRACTED) && ./configure)
+
+LIBJPEG_PREPARED_DEPS = \
+	$(LIBJPEG_EXTRACTED)/config.status \
+
+$(LIBJPEG_BUILD)/.prepared: $(LIBJPEG_PREPARED_DEPS)
+
+UK_PREPARE += $(LIBJPEG_BUILD)/.prepared
