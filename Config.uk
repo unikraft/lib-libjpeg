@@ -1,8 +1,8 @@
-config LIBJPEG
-	bool "libjpeg - JPEG image codec"
-	default n
-	select LIBNOLIBC if !HAVE_LIBC
-	select LIBUKDEBUG
+menuconfig LIBJPEG
+    bool "libjpeg - JPEG image codec"
+    default n
+    select LIBNOLIBC if !HAVE_LIBC
+    select LIBUKDEBUG
     select LIBUKALLOC
     select LIBNEWLIBC
 
