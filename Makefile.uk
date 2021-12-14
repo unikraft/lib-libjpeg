@@ -42,7 +42,7 @@ $(eval $(call addlib_s,libjpeg,$(CONFIG_LIBJPEG)))
 ################################################################################
 # Original sources
 ################################################################################
-LIBJPEG_VERSION=8
+LIBJPEG_VERSION=9
 LIBJPEG_URL=https://www.ijg.org/files/jpegsrc.v$(LIBJPEG_VERSION).tar.gz
 LIBJPEG_PATCHDIR=$(LIBJPEG_BASE)/patches
 LIBJPEG_SUBDIR=jpeg-$(LIBJPEG_VERSION)
